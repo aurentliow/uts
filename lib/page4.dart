@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'transaction.dart'; // Pastikan untuk mengimpor model transaksi
+import 'transaction.dart';
 import 'package:intl/intl.dart';
 
-class Page4 extends StatelessWidget {
+class Page4 extends StatefulWidget {
   final List<Transaction> transactions;
 
   Page4({required this.transactions});
@@ -41,7 +41,7 @@ class _Page4State extends State<Page4> {
                     child: ListTile(
                       title: Text(budget['category']),
                       trailing: Text(
-                        'Rp. ${budget['amount'].toString()}',
+                        'Rp. ${NumberFormat.currency(locale: 'id_ID', symbol: '', decimalDigits: 0).format(budget['amount'])}',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -71,6 +71,10 @@ class _Page4State extends State<Page4> {
                   });
                   categoryController.clear();
                   budgetController.clear();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Silakan masukkan kategori dan jumlah budget.')),
+                  );
                 }
               },
               child: Text('Tambah Budget'),

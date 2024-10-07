@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Authentication App',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -99,7 +100,7 @@ class LoginScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 borderSide: BorderSide(color: Colors.green, width: 2.0),
               ),
-              prefixIcon: Icon(Icons.email, color: Colors.blue),
+              prefixIcon: Icon(Icons.email, color: Colors.pink),
             ),
           ),
 
@@ -116,13 +117,13 @@ class LoginScreen extends StatelessWidget {
               fillColor: Colors.grey[200],
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                borderSide: BorderSide(color: Colors.pink, width: 2.0),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide(color: Colors.orange, width: 2.0),
+                borderSide: BorderSide(color: Colors.green, width: 2.0),
               ),
-              prefixIcon: Icon(Icons.lock, color: Colors.red),
+              prefixIcon: Icon(Icons.lock, color: Colors.pink),
             ),
           ),
 
@@ -176,13 +177,13 @@ class SignUpScreen extends StatelessWidget {
               fillColor: Colors.grey[200],
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide(color: Colors.purple, width: 2.0),
+                borderSide: BorderSide(color: Colors.pink, width: 2.0),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                borderSide: BorderSide(color: Colors.green, width: 2.0),
               ),
-              prefixIcon: Icon(Icons.person, color: Colors.green),
+              prefixIcon: Icon(Icons.person, color: Colors.pink),
             ),
           ),
 
@@ -205,7 +206,7 @@ class SignUpScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 borderSide: BorderSide(color: Colors.green, width: 2.0),
               ),
-              prefixIcon: Icon(Icons.email, color: Colors.blue),
+              prefixIcon: Icon(Icons.email, color: Colors.pink),
             ),
           ),
 
@@ -222,13 +223,13 @@ class SignUpScreen extends StatelessWidget {
               fillColor: Colors.grey[200],
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                borderSide: BorderSide(color: Colors.pink, width: 2.0),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide(color: Colors.orange, width: 2.0),
+                borderSide: BorderSide(color: Colors.green, width: 2.0),
               ),
-              prefixIcon: Icon(Icons.lock, color: Colors.red),
+              prefixIcon: Icon(Icons.lock, color: Colors.pink),
             ),
           ),
 
@@ -245,13 +246,13 @@ class SignUpScreen extends StatelessWidget {
               fillColor: Colors.grey[200],
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                borderSide: BorderSide(color: Colors.pink, width: 2.0),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide(color: Colors.orange, width: 2.0),
+                borderSide: BorderSide(color: Colors.green, width: 2.0),
               ),
-              prefixIcon: Icon(Icons.lock, color: Colors.red),
+              prefixIcon: Icon(Icons.lock, color: Colors.pink),
             ),
           ),
 

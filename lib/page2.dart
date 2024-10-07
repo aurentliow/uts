@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'transaction.dart'; // Impor kelas Transaction di sini
-import 'package:fl_chart/fl_chart.dart'; // Impor untuk pie chart
+import 'transaction.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import 'page3.dart';
 import 'page4.dart';
+import 'page5.dart';
 
-class Page2 extends StatelessWidget {
-  final List<Transaction> transactions; // Tambahkan ini
+class Page2 extends StatefulWidget {
+  final List<Transaction> transactions;
 
   Page2({required this.transactions});
 
@@ -15,13 +16,19 @@ class Page2 extends StatelessWidget {
 }
 
 class _Page2State extends State<Page2> {
+  String selectedButton = 'Expenses'; // State untuk menyimpan button terpilih
+  List<PieChartSectionData> pieSections = [];
+
   @override
-  Widget build(BuildContext context) {
-    // Menghitung total expenses dan data untuk pie chart
+  void initState() {
+    super.initState();
+    _updatePieSections();
+  }
+
+  void _updatePieSections() {
     double totalExpenses = widget.transactions
         .where((t) => t.type == 'Expenses')
         .fold(0, (sum, t) => sum + t.amount);
-
     double totalIncome = widget.transactions
         .where((t) => t.type == 'Income')
         .fold(0, (sum, t) => sum + t.amount);
@@ -37,8 +44,6 @@ class _Page2State extends State<Page2> {
       incomeData[transaction.category] = (incomeData[transaction.category] ?? 0) + transaction.amount;
     });
 
-    List<PieChartSectionData> pieSections = [];
-
     if (selectedButton == 'Expenses') {
       pieSections = expensesData.entries.map((entry) {
         return PieChartSectionData(
@@ -49,7 +54,7 @@ class _Page2State extends State<Page2> {
           titleStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         );
       }).toList();
-    } else if (selectedButton == 'Income') {
+    } else {
       pieSections = incomeData.entries.map((entry) {
         return PieChartSectionData(
           color: Colors.primaries[incomeData.keys.toList().indexOf(entry.key) % Colors.primaries.length],
@@ -60,6 +65,16 @@ class _Page2State extends State<Page2> {
         );
       }).toList();
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double totalExpenses = widget.transactions
+        .where((t) => t.type == 'Expenses')
+        .fold(0, (sum, t) => sum + t.amount);
+    double totalIncome = widget.transactions
+        .where((t) => t.type == 'Income')
+        .fold(0, (sum, t) => sum + t.amount);
 
     return Scaffold(
       appBar: AppBar(
@@ -67,43 +82,42 @@ class _Page2State extends State<Page2> {
       ),
       body: Column(
         children: [
-          // Tombol Horizontal
           Container(
             margin: EdgeInsets.all(16),
             height: 60,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              _buildButton('Expenses', onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Page3(transactions: widget.transactions),
-                  ),
-                );
-              }),
-              _buildButton('Income', onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Page4(transactions: widget.transactions),
-                  ),
-                );
-              }),
-              _buildButton('Budget', onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Page4(transactions: widget.transactions),
-                  ),
-                );
-              }),
-              _buildButton('Graphic', onPressed: () {
-                // Tindakan untuk tombol Graphic jika ada
-              }),
+              children: [
+                _buildButton('Expenses', () {
+                  setState(() {
+                    selectedButton = 'Expenses';
+                    _updatePieSections();
+                  });
+                }),
+                SizedBox(width: 8),
+                _buildButton('Income', () {
+                  setState(() {
+                    selectedButton = 'Income';
+                    _updatePieSections();
+                  });
+                }),
+                SizedBox(width: 8),
+                _buildButton('Budget', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Page4(transactions: widget.transactions)),
+                  );
+                }),
+                SizedBox(width: 8),
+                _buildButton('Graphic', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Page5(transactions: widget.transactions)),
+                  );
+                }),
+              ],
             ),
           ),
-    ),
-          // Pie Chart
           Expanded(
             child: Center(
               child: Stack(
@@ -127,8 +141,6 @@ class _Page2State extends State<Page2> {
               ),
             ),
           ),
-
-          // History
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
@@ -143,25 +155,9 @@ class _Page2State extends State<Page2> {
                       .where((transaction) => transaction.type == selectedButton)
                       .map((transaction) => Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            transaction.category,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        SizedBox(width: 16), // Jarak antara kategori dan harga
-                        Text(
-                          NumberFormat.currency(
-                            locale: 'id_ID',
-                            symbol: 'Rp. ',
-                            decimalDigits: 0,
-                          ).format(transaction.amount),
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
+                    child: Text(
+                      '${transaction.category}  ${NumberFormat.currency(locale: 'id_ID', symbol: 'Rp. ', decimalDigits: 0).format(transaction.amount)}',
+                      style: TextStyle(fontSize: 16),
                     ),
                   ))
                       .toList(),
@@ -174,7 +170,7 @@ class _Page2State extends State<Page2> {
     );
   }
 
-  Widget _buildButton(String text, {required Function onPressed}) {
+  Widget _buildButton(String text, Function onPressed) {
     return ElevatedButton(
       onPressed: () => onPressed(),
       child: Text(text),
@@ -186,5 +182,4 @@ class _Page2State extends State<Page2> {
       ),
     );
   }
-
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'transaction.dart';
 import 'package:intl/intl.dart';
-import 'transaction.dart'; // Pastikan untuk mengimpor file yang benar
+import 'package:fl_chart/fl_chart.dart';
 
 class Page3 extends StatelessWidget {
   final List<Transaction> transactions;
@@ -10,11 +10,9 @@ class Page3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Hitung total income
     double totalIncome = transactions.where((t) => t.type == 'Income').fold(0, (sum, t) => sum + t.amount);
     Map<String, double> incomeData = {};
 
-    // Mengumpulkan data untuk grafik
     transactions.where((t) => t.type == 'Income').forEach((transaction) {
       incomeData[transaction.category] = (incomeData[transaction.category] ?? 0) + transaction.amount;
     });
@@ -44,7 +42,7 @@ class Page3 extends StatelessWidget {
               children: [
                 _buildButton(context, 'Expenses'),
                 SizedBox(width: 8),
-                _buildIncomeButton(context), // Tombol Income (navigasi ke Page3)
+                _buildButton(context, 'Income', isSelected: true),
                 SizedBox(width: 8),
                 _buildButton(context, 'Budget'),
                 SizedBox(width: 8),
@@ -88,7 +86,7 @@ class Page3 extends StatelessWidget {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   ...transactions
-                      .where((transaction) => transaction.type == 'Income') // Memfilter untuk Income
+                      .where((transaction) => transaction.type == 'Income')
                       .map((transaction) => Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4.0),
                     child: Text(
@@ -107,36 +105,18 @@ class Page3 extends StatelessWidget {
   }
 
   // Membuat tombol dengan gaya
-  Widget _buildButton(BuildContext context, String text) {
+  Widget _buildButton(BuildContext context, String text, {bool isSelected = false}) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        // Implement navigasi sesuai kebutuhan
+      },
       child: Text(text),
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
-      ),
-    );
-  }
-
-  // Membuat tombol Income (navigasi ke Page3)
-  Widget _buildIncomeButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Page3(transactions: transactions), // Pastikan untuk melewatkan transactions
-          ),
-        );
-      },
-      child: Text('Income'),
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
+        backgroundColor: isSelected ? Colors.blue : Colors.grey, // Ganti primary dengan backgroundColor
       ),
     );
   }
